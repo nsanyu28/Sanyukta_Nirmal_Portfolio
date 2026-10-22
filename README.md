@@ -1,55 +1,74 @@
-# Sanyukta Nirmal — Portfolio
+# Sanyukta Nirmal – Portfolio Website
 
-A modern, responsive, single-page portfolio for **Sanyukta Nirmal**, DevOps & Cloud Engineer. The site is built with plain HTML, CSS, and JavaScript so it can be deployed directly to GitHub Pages or any static host.
+A responsive, single-page portfolio built with plain **HTML, CSS and JavaScript** (no build step, no dependencies). All content comes from the resume in `assets/Sanyukta_Nirmal_Resume.pdf`.
 
-## Included
+**Sections:** Home · About · Technical Skills (filterable) · Experience · Projects · Education · Certifications · Contact
 
-- `index.html` — semantic, recruiter-focused portfolio page
-- `styles.css` — responsive visual system, layout, states, and motion
-- `script.js` — mobile navigation, interactive skills panel, reveal animations, current year, and mailto contact flow
-- `assets/Sanyukta_Nirmal_CV.pdf` — original resume used as the source of truth for site content
-- `favicon.svg` — lightweight site icon
-- `manus-routes.json` — route declaration for the managed preview
+**Features:** dark/light theme toggle, animated terminal and typing effect, count-up stats, scroll-reveal animations, mobile menu, back-to-top button, contact form (opens your email app), reduced-motion support.
 
-## Run locally
+## Project structure
 
-No build step is required. Serve the folder with any static server so relative links and the resume download behave like production:
-
-```bash
-python3 -m http.server 3000
+```
+portfolio/
+├── index.html
+├── css/style.css
+├── js/
+│   ├── config.js      <- edit this (GitHub URL)
+│   └── main.js
+├── assets/
+│   ├── Sanyukta_Nirmal_Resume.pdf   <- "Download Resume" button
+│   ├── aws-cloud-quest-badge.svg
+│   └── favicon.svg
+└── README.md
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+## 1. Add your GitHub link (important)
 
-## Deploy to GitHub Pages
+Your resume lists GitHub as a skill but does not include a profile URL, so none has been made up. Open `js/config.js` and set:
 
-1. Create a new GitHub repository, for example `sanyukta-portfolio`.
-2. Copy the contents of this folder into the repository root. Keep `index.html` at the root and preserve the `assets/` folder.
-3. Commit and push the files to the default branch:
+```js
+githubUrl: "https://github.com/your-username",
+```
 
+GitHub buttons (Home, Projects, Contact) stay hidden until this is set, so the site never shows a broken link. LinkedIn and Credly links are already set from your resume.
+
+## 2. Run locally
+
+Just open `index.html` in a browser, or serve it:
+
+```bash
+python3 -m http.server 8000
+# then visit http://localhost:8000
+```
+
+## 3. Deploy on GitHub Pages
+
+1. Create a new repository on GitHub. For a root URL (`https://<username>.github.io`), name it exactly `<username>.github.io`. Any other name works too and will be served at `https://<username>.github.io/<repo-name>/`.
+2. Upload the **contents** of this folder (so `index.html` is at the repo root):
    ```bash
+   cd portfolio
    git init
    git add .
-   git commit -m "Create Sanyukta Nirmal portfolio"
+   git commit -m "Add portfolio website"
    git branch -M main
-   git remote add origin https://github.com/YOUR-USERNAME/sanyukta-portfolio.git
+   git remote add origin https://github.com/<username>/<repo>.git
    git push -u origin main
    ```
+3. In the repo go to **Settings → Pages**.
+4. Under **Build and deployment → Source**, choose **Deploy from a branch**.
+5. Select branch **main** and folder **/ (root)**, then **Save**.
+6. Wait 1–2 minutes. Your site will be live at the URL shown on that page.
 
-4. In GitHub, open **Settings → Pages**.
-5. Under **Build and deployment**, choose **Deploy from a branch**.
-6. Select the `main` branch and the `/ (root)` folder, then click **Save**.
-7. GitHub will provide the published Pages URL after the workflow completes.
+All paths in the site are relative, so it works both at the root and in a project subpath.
 
-Because this is a static site, no Node installation or build command is needed. If your repository uses a custom domain, add the domain in GitHub Pages and update DNS as instructed by GitHub.
+## Updating content
 
-## Resume-backed content note
+- **Text/sections:** edit `index.html`.
+- **Colours:** change the CSS variables at the top of `css/style.css`.
+- **Resume:** replace `assets/Sanyukta_Nirmal_Resume.pdf` (keep the same file name).
+- **Contact email:** `js/config.js` and the links in the Contact section of `index.html`.
 
-Site copy is intentionally limited to details present in the supplied resume. The resume contains a verified LinkedIn URL and Credly profile, but it does not contain a personal GitHub profile URL. The GitHub button therefore opens the main GitHub site rather than inventing a personal profile; replace its `href` in `index.html` when the personal GitHub URL is available.
+## Notes
 
-## Customize
-
-- Edit colors and spacing in `:root` in `styles.css`.
-- Add or update resume-backed copy in `index.html`.
-- Update the skill data object in `script.js` when verified skills change.
-- Replace `assets/Sanyukta_Nirmal_CV.pdf` with a newer resume using the same filename to keep the download button working.
+- The contact form uses `mailto:` (opens the visitor's email app) because GitHub Pages has no backend. For a hosted form, services like Formspree can be wired into the `<form>` later.
+- Fonts load from Google Fonts; the site falls back to system fonts offline.
